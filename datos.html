@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto</title>
+
+<style>
+#luxury-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+}
+
+body {
+  margin: 0;
+  background: black;
+  color: gold;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Flechita premium */
+.back-arrow {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 55px;
+  height: 55px;
+  border: 2px solid rgba(212,175,55,0.9);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  transition: 0.3s;
+  z-index: 1000;
+  text-decoration: none;
+}
+
+.back-arrow svg {
+  width: 24px;
+  height: 24px;
+  stroke: gold;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.back-arrow:hover {
+  box-shadow: 0 0 20px rgba(212,175,55,0.6);
+  transform: scale(1.08);
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 36px;
+  letter-spacing: 2px;
+}
+
+/* Caja contacto */
+.contact-box {
+  max-width: 600px;
+  margin: 60px auto;
+  background: rgba(20,20,20,0.9);
+  border: 1px solid gold;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+}
+
+.contact-box p {
+  color: white;
+  margin-bottom: 25px;
+}
+
+.contact-box a {
+  display: block;
+  margin: 15px 0;
+  text-decoration: none;
+  color: gold;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.contact-box a:hover {
+  text-decoration: underline;
+}
+.contact-link {
+  display: block;
+  margin: 20px 0;
+  font-size: 20px;
+  color: gold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contact-link:hover {
+  text-shadow: 0 0 15px rgba(212,175,55,0.8);
+  transform: scale(1.05);
+}
+.gold-line {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, transparent, gold, transparent);
+  margin: 20px auto;
+}
+.contact-section {
+  text-align: center;
+  margin-top: 60px;
+}
+.contact-footer {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.6;
+  margin-top: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="luxury-bg"></canvas>
+
+<a href="index.html" class="back-arrow">
+  <svg viewBox="0 0 24 24">
+    <path d="M15 6l-6 6 6 6"/>
+  </svg>
+</a>
+
+<h1>CONTACTO</h1>
+
+<div class="contact-box">
+  <p>SI TENÉS ALGUNA CONSULTA, NO DUDES EN COMUNICARTE CON NOSOTROS POR LOS SIGUIENTES MEDIOS:</p>
+
+<div class="gold-line"></div>
+
+ <a href="https://wa.me/5491159773700" class="contact-link" target="_blank">📱 WHATSAPP</a>
+
+<div class="gold-line"></div>
+
+<a href="mailto:perfumes.arabes.los@gmail.com" class="contact-link">
+  📧 Gmail
+</a>
+
+<div class="gold-line"></div>
+
+<a href="https://instagram.com/cb_.import" target="_blank" class="contact-link">
+  📸 INSTAGRAM
+</a>
+
+<div class="gold-line"></div>
+
+<a href="https://tiktok.com/@CB.import" target="_blank" class="contact-link">
+  🎵 TikTok
+</a>
+</div>
+
+<p class="contact-footer">
+  © 2026 CB.IMPORT — Todos los derechos reservados
+</p>
+<script>
+const canvas = document.getElementById("luxury-bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const particleCount = 80;
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+
+  draw() {
+    ctx.fillStyle = "rgba(212,175,55,0.8)";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function init() {
+  particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function connect() {
+  for (let a = 0; a < particles.length; a++) {
+    for (let b = a; b < particles.length; b++) {
+      let dx = particles[a].x - particles[b].x;
+      let dy = particles[a].y - particles[b].y;
+      let distance = dx * dx + dy * dy;
+
+      if (distance < 9000) {
+        ctx.strokeStyle = "rgba(212,175,55,0.08)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  connect();
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+});
+
+init();
+animate();
+/* Colocar dentro del <script> de cada página que tenga la flechita, antes de </body> */
+document.querySelectorAll('.back-button').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.body.style.transition = "opacity 0.5s ease-in-out";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = btn.getAttribute('href');
+    }, 500);
+  });
+});
+</script>
+
+
+
+</body>
+</html>

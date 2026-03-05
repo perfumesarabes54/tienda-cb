@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Perfumes</title>
+
+<style>
+/* Colocar dentro del <style> de la sección correspondiente (Ayuda, Preguntas Frecuentes, Productos si tiene acordeones) */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+  opacity: 0;
+}
+.accordion-content.open {
+  opacity: 1;
+}
+.accordion-title {
+  cursor: pointer;
+}
+.back-arrow {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 55px;
+  height: 55px;
+  border: 2px solid rgba(212,175,55,0.9);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.back-arrow svg {
+  width: 24px;
+  height: 24px;
+  stroke: gold;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.back-arrow:hover {
+  box-shadow: 0 0 20px rgba(212,175,55,0.6);
+  transform: scale(1.08);
+}
+.back-button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(212,175,55,1);
+}
+body {
+  margin: 0;
+  background: black;
+}
+
+#luxury-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* ===== BUSCADOR ===== */
+
+.search-bar {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+#searchInput {
+    width: 60%;
+    max-width: 400px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 2px solid gold;
+    outline: none;
+    font-size: 16px;
+    background: #111;
+    color: white;
+    transition: 0.3s;
+}
+
+#searchInput:focus {
+    box-shadow: 0 0 15px gold;
+    border-color: orange;
+}
+
+.search-icon{
+  font-size:30px;
+  cursor:pointer;
+}
+
+
+.search-box{
+  position:absolute;
+  top:70px;
+  right:20px;
+  background:#222;
+  padding:10px;
+  border-radius:10px;
+  display:none;
+}
+
+.search-box input{
+  padding:10px;
+  width:250px;
+  border:none;
+  border-radius:5px;
+  outline:none;
+}
+.search-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.search-icon {
+    font-size: 28px;
+    cursor: pointer;
+    background: gold;
+    color: black;
+    padding: 14px 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px gold;
+    transition: 0.3s;
+}
+
+.search-icon:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 35px orange;
+}
+.search-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.search-icon {
+    font-size: 22px;
+    cursor: pointer;
+    background: #111;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 50px;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.search-icon:hover {
+    background: #222;
+    transform: scale(1.1);
+}
+
+#searchInput {
+    margin-top: 10px;
+    padding: 12px;
+    width: 250px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    background: #1c1c1c;
+    color: white;
+    font-size: 14px;
+    display: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+body{
+  background:#000;
+  color:#d4af37;
+  font-family:Arial, Helvetica, sans-serif;
+  margin:0;
+}
+
+
+h1{
+  text-align:center;
+  padding:20px;
+}
+
+h2{
+  border-bottom:1px solid #d4af37;
+  padding-bottom:5px;
+  margin-top:40px;
+}
+
+.section{
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #d4af37;
+  padding:15px;
+  text-align:center;
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  background:#222;
+  object-fit:cover;
+  margin-bottom:10px;
+}
+
+.price{
+  margin:10px 0;
+  font-weight:bold;
+}
+
+.btn{
+  display:inline-block;
+  padding:8px 12px;
+  border:1px solid #d4af37;
+  color:#d4af37;
+  text-decoration:none;
+}
+
+.btn:hover{
+  background:#d4af37;
+  color:#000;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  font-size:11px;
+  font-weight:bold;
+  border-radius:10px;
+  margin-bottom:6px;
+}
+
+.original{
+  background:#d4af37;
+  color:#000;
+}
+
+.g5{
+  background:#2ecc71;
+  color:#000;
+}
+/* CONTENEDOR DE TODOS LOS PRODUCTOS */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* CADA PRODUCTO INDIVIDUAL */
+.producto {
+  background: #111;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+/* EFECTO HOVER EN PC */
+.producto:hover {
+  transform: scale(1.05);
+}
+
+/* IMÁGENES ADAPTADAS */
+.producto img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+/* ===== GRID PRODUCTOS RESPONSIVE ===== */
+
+.productos {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+
+/* GRID FIJO 4 COLUMNAS */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  padding: 20px;
+}
+
+/* Imagen adaptable */
+.card img {
+  width: 100%;
+  height: auto;
+}
+/* ===== IMÁGENES CUADRADAS PRO ===== */
+
+.card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* fuerza cuadrado perfecto */
+  object-fit: cover;     /* rellena sin deformarse */
+  border-radius: 10px;
+}
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+/* PC */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Celular */
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}</style>
+</head>
+
+<body>
+<a href="index.html" class="back-arrow">
+  <svg viewBox="0 0 24 24">
+    <path d="M15 6l-6 6 6 6"/>
+  </svg>
+</a>
+<canvas id="luxury-bg"></canvas>
+
+<h1>CATÁLOGO DE PERFUMES</h1>
+
+<!-- ================= LATTAFA ================= -->
+<div class="section">
+<h2>Lattafa</h2>
+<div class="grid">
+
+
+<div class="card">
+<img src="https://i.postimg.cc/VsMSdPN0/al-noble-ameer.jpg" alt="Ameer Al Arab">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Ameer Al Arab</h3>
+<div class="price">$55.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Ameer Al Arab">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/RVTZX4ts/xerjoff-gold.jpg" alt="Yara Rose">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Yara Rose</h3>
+<div class="price">$40.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Yara Rose">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/NG1VHMhC/xerjoff-gold.jpg" alt="Yara Moi">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Yara Moi</h3>
+<div class="price">$40.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Yara Moi">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/d1mxzsKg/xerjoff-gold.jpg" alt="Yara Candy">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Yara Candy</h3>
+<div class="price">$45.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Yara Candy">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/3rXY5Sdb/mayar.jpg" alt="Mayar">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Mayar</h3>
+<div class="price">$50.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Mayar">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/1tztNTXb/xerjoff-gold.jpg" alt="Yara Tous">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Yara Tous</h3>
+<div class="price">$52.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Yara Tous">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/C5sgG13g/badee-al-oud-sublime.jpg" alt="Bade’e Al Oud Sublime">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bade’e Al Oud Sublime</h3>
+<div class="price">$52.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bade’e Al Oud Sublime">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/66n34dpW/xerjoff-gold.jpg" alt="Asad Black">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Asad Black</h3>
+<div class="price">$52.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Asad Black">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/XJyv85Kr/xerjoff-gold.jpg" alt="Asad Zanzibar">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Asad Zanzibar</h3>
+<div class="price">$52.500</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Asad Zanzibar">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/v8rYZb0M/xerjoff-gold.jpg" alt="Khamrah">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Khamrah</h3>
+<div class="price">$53.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Khamrah">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/Gmn1M6PX/qawa.jpg" alt="Khamrah Qahwa">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Khamrah Qahwa</h3>
+<div class="price">$53.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Khamrah Qahwa">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/br9hxJ7y/eclaire.jpg" alt="Eclaire Fucsia">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Eclaire Fucsia</h3>
+<div class="price">$58.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Eclaire Fucsia">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/G22d1Y5s/ajwad.jpg" alt="Ajwad">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Ajwad</h3>
+<div class="price">$63.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Ajwad">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/446skLYJ/rave-now-intense.jpg" alt="Rave Now Intense">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rave Now Intense</h3>
+<div class="price">$72.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rave Now Intense">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/gcVmFSxn/the-kindomg.jpg" alt="The Kingdom">
+<span class="badge original">Original</span>
+<h3>The Kingdom</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el The Kingdom">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/qBs4VbNd/qaaed-lattafa.jpg" alt="Qaaed Lattafa">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Qaaed Lattafa</h3>
+<div class="price">$76.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Qaaed Lattafa">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/J7NMV6s7/shaheen-gold.jpg" alt="Shaheen Gold">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Shaheen Gold</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Shaheen Gold">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/DfrnkjSw/shaheen-silver.jpg" alt="Shaheen Silver">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Shaheen Silver</h3>
+<div class="price">$83.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Shaheen Silver">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/d3YFZdxw/atheeri.jpg" alt="Atheeri">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Atheeri</h3>
+<div class="price">$86.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Atheeri">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/NFkc6M3j/fakhar-gold.jpg" alt="Fakhar Gold Extrait">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Fakhar Gold Extrait</h3>
+<div class="price">$55.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Fakhar Gold Extrait">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/nrJx97Pz/badee-al-oud-for-glory.jpg" alt="Bade’e Al Oud Glory">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bade’e Al Oud Glory</h3>
+<div class="price">$55.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bade’e Al Oud Glory">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/ry1MXnDm/tave-now-rouge.jpg" alt="Rave Now Rouge">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rave Now Rouge</h3>
+<div class="price">$55.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rave Now Rouge">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/VLxzxJwX/fakhar-rose.jpg" alt="Fakhar Rose">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Fakhar Rose</h3>
+<div class="price">$55.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Fakhar Rose">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/gjHWVJCq/khamrah-dukan.jpg" alt="Khamrah Dukhan">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Khamrah Dukhan</h3>
+<div class="price">$57.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Khamrah Dukhan">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/yx5S476V/BURBON.jpg" alt="Asad Bourbon">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Asad Bourbon</h3>
+<div class="price">$57.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Asad Bourbon">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/mZYBfXtv/oud-lail-maleki.jpg" alt="Oud Lail Maleki">
+<span class="badge original">Original</span>
+<h3>Oud Lail Maleki</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Oud Lail Maleki">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/x82QNH4j/ameer.jpg" alt="AL Noble Ameer">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>AL Noble Ameer</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el AL Noble Ameer">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/T1SWMT2Y/SAFEER.jpg" alt="AL Noble Safeer">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>AL Noble Safeer</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el AL Noble Safeer">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/1XrQGtkZ/badee-al-oud-noble-blusa.jpg" alt="Bade’e Al Oud Noble Blush">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bade’e Al Oud Noble Blush</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bade’e Al Oud Noble Blush">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/CMGSTPRg/qaed-al-fursam-white.jpg" alt="Qaed Al Fursan Blanco">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Qaed Al Fursan Blanco</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Qaed Al Fursan Blanco">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/h4LcWyXn/qaed-al-fursan.jpg" alt="Qaed Al Fursan Negro">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Qaed Al Fursan Negro</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Qaed Al Fursan Negro">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/2y7DQ6sj/emaan.jpg" alt="Emaan">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Emaan</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Emaan">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/3rXY5Sk8/sakeena.jpg" alt="Sakeena">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Sakeena</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Sakeena">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/kMQq312P/qaaed-al-shabaab.jpg" alt="Qaaed Al Shabaab">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Qaaed Al Shabaab</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Qaaed Al Shabaab">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/QCJ3Qt2C/habik.jpg" alt="Habik For Men">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Habik For Men</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Habik For Men">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/3rXY5Sk4/victoria-lattafa.jpg" alt="Victoria">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Victoria</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Victoria">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/rsdvBGZ6/xerjoff-gold.jpg" alt="Fakhar Black">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Fakhar Black</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Fakhar Black">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/8PTD1Rvz/wazeer.jpg" alt="AL Noble Wazeer"><span class="badge g5">G5 - Alta Calidad</span>
+<h3>AL Noble Wazeer</h3>
+<div class="price">$65.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el AL Noble Wazeer">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/Y0MwWLdL/xerjoff-gold.jpg" alt="Musamam White Intense">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Musamam White Intense</h3>
+<div class="price">$65.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Musamam White Intense">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/Jn182dkD/xerjoff-gold.jpg" alt="Musamam Black Intense">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Musamam Black Intense</h3>
+<div class="price">$65.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Musamam Black Intense">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/3NFTXRs2/idhk-al-shuyujh.jpg" alt="Ishq Al Shuyukh">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Ishq Al Shuyukh</h3>
+<div class="price">$65.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Ishq Al Shuyukh">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/PJQjWxgr/emeer.jpg" alt="Emeer">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Emeer</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Emeer">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/PJjHvZRX/art-of-universe.jpg" alt="Art Of Universe">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Art Of Universe</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Art Of Universe">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/cCBSRHp0/eclaire-banoffi.jpg" alt="Eclaire Banoffi">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Eclaire Banoffi</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Eclaire Banoffi">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/0j0sYQTD/her-confession.jpg" alt="Her Confession">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Her Confession</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Her Confession">Comprar</a>
+</div>
+
+</div>
+</div>
+<!-- ================= MAISON ALHAMBRA ================= -->
+
+<div class="section">
+<h2>Maison Alhambra</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/L53ptXc3/l-intrude.jpg" alt="L’intrude">
+<span class="badge original">ORIGINAL</span>
+<h3>L’intrude</h3>
+<div class="price">$58.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el L’intrude">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/GtCRTY5m/bad-femme.jpg" alt="B.A.D Femme">
+<span class="badge original">ORIGINAL</span>
+<h3>B.A.D Femme</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el B.A.D Femme">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/dtJvq2C7/your-touch-intense.jpg" alt="Your Touch">
+<span class="badge original">ORIGINAL</span>
+<h3>Your Touch</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Your Touch">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/wxXg8f1K/philos-pura.jpg" alt="Philos Pura">
+<span class="badge original">ORIGINAL</span>
+<h3>Philos Pura</h3>
+<div class="price">$90.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Philos Pura">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/qqTr6n57/bad-homme.jpg" alt="B.A.D Homme">
+<span class="badge original">ORIGINAL</span>
+<h3>B.A.D Homme</h3>
+<div class="price">$87.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el B.A.D Homme">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/FzV4yRMZ/maisom-alhambrah-celeste.jpg" alt="Maison Alhambra Celeste"
+<span class="badge original">ORIGINAL</span>
+<h3>Maison Alhambra Celeste</h3>
+<div class="price">$78.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Maison Alhambra Celeste">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================= RASASI ================= -->
+
+<div class="section">
+<h2>Rasasi</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/MH4j2zZq/HAWAS-FOR-HIM.jpg" alt="Hawas For Him">
+<span class="badge original">ORIGINAL</span>
+<h3>Hawas For Him</h3>
+<div class="price">$88.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Hawas For Him">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/nrGJ4zyD/hawas-fire.jpg" alt="Hawas Fire">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Hawas Fire</h3>
+<div class="price">$65.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Hawas Fire">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/C5sgG13R/hawas-black.jpg" alt="Rasasi Hawas Black For Him">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rasasi Hawas Black For Him</h3>
+<div class="price">$72.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rasasi Hawas Black For Him">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/PJQjWxg8/hawas-elixir.jpg" alt="Rasasi Hawas Elixir">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rasasi Hawas Elixir</h3>
+<div class="price">$78.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rasasi Hawas Elixir">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/nrGJ4zym/hawas-ice.jpg" alt="Rasasi Hawas Ice">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rasasi Hawas Ice</h3>
+<div class="price">$72.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rasasi Hawas Ice">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/tJNj3TKn/hawas-for-her.jpg" alt="Rasasi Hawas For Her">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Rasasi Hawas For Her</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Rasasi Hawas For Her">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================= BHARARA ================= -->
+
+<div class="section">
+<h2>Bharara</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/3NFTXRsh/bharara-king.jpg" alt="Bharara King">
+<span class="badge original">ORIGINAL</span>
+<h3>Bharara King</h3>
+<div class="price">$150.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bharara King">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/WpGTLWdq/viking-beirut.jpg" alt="Bharara Viking Beirut">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bharara Viking Beirut</h3>
+<div class="price">$68.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bharara Viking Beirut">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/2jQrRc1B/viking-kairo.jpg" alt="Bharara Viking Cairo">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bharara Viking Cairo</h3>
+<div class="price">$85.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bharara Viking Cairo">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/gkGdYVhc/viking-khasmir.jpg" alt="Bharara Viking Kashmir">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bharara Viking Kashmir</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bharara Viking Kashmir">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================= ARMAF ================= -->
+
+
+<div class="section">
+<h2>Armaf</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/fysh9qwb/xerjoff-gold.jpg" alt="Club de Nuit Iconic">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Club de Nuit Iconic</h3>
+<div class="price">$57.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Club de Nuit Iconic">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/GhMZLmsk/xerjoff-gold.jpg" alt="Club de Nuit Woman">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Club de Nuit Woman</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Club de Nuit Woman">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/cCBSRHps/club-de-nuit-sillage.jpg" alt="Club de Nuit Sillage">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Club de Nuit Sillage</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Club de Nuit Sillage">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/J03MYVTb/xerjoff-gold.jpg" alt="Club de Nuit Maleka">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Club de Nuit Maleka</h3>
+<div class="price">$67.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Club de Nuit Maleka">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/yNW61Gdq/xerjoff-gold.jpg" alt="Club de Nuit Intense">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Club de Nuit Intense</h3>
+<div class="price">$72.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Club de Nuit Intense">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/L6mRHtPY/yum-yum.jpg" alt="Armaf Yum Yum">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Armaf Yum Yum</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Armaf Yum Yum">Comprar</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= XERJOFF ================ -->
+
+<div class="section">
+<h2>Xerjoff</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/CLwYFG8R/xerjoff-soprano.jpg" alt="Xerjoff Soprano">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Xerjoff Soprano</h3>
+<div class="price">$78.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Xerjoff Soprano">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/Dy7F2rGm/xerjoff-opera.jpg" alt="Xerjoff Opera">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Xerjoff Opera</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Xerjoff Opera">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/DfpH3Xq3/xer.jpg" alt="Xerjoff Gold">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Xerjoff Gold</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Xerjoff Gold">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/qMp0ksKz/xerjoff-overdose.jpg" alt="Xerjoff Accento Overdose">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Xerjoff Accento Overdose</h3>
+<div class="price">$85.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Xerjoff Accento Overdose">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/T3x3yK4C/erba.jpg" alt="Xerjoff Erba Pura">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Xerjoff Erba Pura</h3>
+<div class="price">$90.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Xerjoff Erba Pura">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================= AL HARAMAIN ================= -->
+
+<div class="section">
+<h2>Al Haramain</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/RhLB7FkN/haramain-ultra-violet.jpg" alt="Amber Oud Ultra Violet">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Oud Ultra Violet</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Oud Ultra Violet">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/qqTr6n50/amber-oud.jpg" alt="Amber Oud Private Edition">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Oud Private Edition</h3>
+<div class="price">$83.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Oud Private Edition">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/V6V1s6x6/al-haramian-gold.jpg" alt="Amber Oud Gold">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Oud Gold</h3>
+<div class="price">$85.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Oud Gold">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/BbB0T6rt/haramain-dubai.jpg" alt="Amber Oud Night Dubai">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Oud Night Dubai</h3>
+<div class="price">$85.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Oud Night Dubai">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/hvBnQx5F/al-haramian-ruby.jpg" alt="Amber Oud Ruby">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Oud Ruby</h3>
+<div class="price">$85.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Oud Ruby">Comprar</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= ORIENTICA ================= -->
+
+<div class="section">
+<h2>Orientica</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/05YPRWb4/orientica-royal-bleu.jpg" alt="Royal Bleu">
+<span class="bahttps://i.postimg.cc/05YPRWb4/orientica-royal-bleu.jpgdge g5">G5 - Alta Calidad</span>
+<h3>Royal Bleu</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Royal Bleu">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/J7NMV6G2/orientica-amber-rouge.jpg" alt="Amber Rouge">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Amber Rouge</h3>
+<div class="price">$75.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Amber Rouge">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/nV4pbRC5/orientica.jpg" alt="Royal Amber">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Royal Amber</h3>
+<div class="price">$87.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Royal Amber">Comprar</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= AFNAN ================= -->
+
+<div class="section">
+<h2>Afnan</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/90Sq5cmv/9-AM-DIVE.jpg" alt="9 Am Dive">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>9 Am Dive</h3>
+<div class="price">$50.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el 9am Dive">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/QNyDfCYj/xerjoff-gold.jpg" alt="9 PM">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>9 PM</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el 9 PM">Comprar</a>
+</div>
+
+</div>
+</div>
+
+<!-- ================= JEAN PAUL GAULTIER ================= -->
+
+<div class="section">
+<h2>Jean Paul Gaultier</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/KjD2Pz6P/jean-paul-la-male-la-parfum.jpg" alt="Le Male Le Parfum">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Le Male Le Parfum</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Le Male Le Parfum">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/8kF0Qjs5/xerjoff-gold.jpg" alt="Le Male Elixir">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Le Male Elixir</h3>
+<div class="price">$100.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Le Male Elixir">Comprar</a>
+</div>
+
+</div>
+</div>
+
+
+<!-- ================= GIVE ME GOURMAND ================= -->
+
+<div class="section">
+<h2>Give Me Gourmand</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/sfYsd6MB/vainilla-freak.jpg" alt="Vanilla Freak">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Vanilla Freak</h3>
+<div class="price">$66.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Vanilla Freak">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/hv1BLjk0/mallow-madness.jpg" alt="Mallow Madness">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Mallow Madness</h3>
+<div class="price">$66.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Mallow Madness">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/029x8YSN/whiprad-pleasure.jpg" alt="Whipped Pleasure">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Whipped Pleasure</h3>
+<div class="price">$70.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Whipped Pleasure">Comprar</a>
+</div>
+
+</div>
+</div>
+
+
+
+<!-- ================= ZATYS ============= -->
+
+<div class="section">
+<h2>Zatys</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/7LnGz0Vk/xerjoff-gold.jpg" alt="Poseidon">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Poseidon</h3>
+<div class="price">$15.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Poseidon Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/zXQcmRTT/xerjoff-gold.jpg" alt="Stronger Than Ever">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Stronger Than Ever</h3>
+<div class="price">$16.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Stronger Than Ever Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/tJqgF45v/xerjoff-gold.jpg" alt="No Rules">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>No Rules</h3>
+<div class="price">$16.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el No Rules Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/hj6Bt4Y9/xerjoff-gold.jpg" alt="Legacy">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Legacy</h3>
+<div class="price">$20.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Legacy Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/sgVtyZXz/xerjoff-gold.jpg" alt="Timberwolf">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Timberwolf</h3>
+<div class="price">$20.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Timberwolf Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/tRB6DKx2/xerjoff-gold.jpg" alt="Magnetic">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Magnetic</h3>
+<div class="price">$20.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Magnetic Zatys">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/tRB6DKx2/xerjoff-gold.jpg" alt="Mistery">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Mistery</h3>
+<div class="price">$20.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Mistery Zatys">Comprar</a>
+</div>
+
+
+
+</div>
+</div>
+
+
+<!-- ================= CITY GIRL ============= -->
+
+<div class="section">
+<h2>City Girl</h2>
+<div class="grid">
+
+<div class="card">
+<img src="https://i.postimg.cc/9FsWQ0GV/xerjoff-gold.jpg" alt="Savage Power">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Savage Power</h3>
+<div class="price">$20.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Savage Power">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/cLGVznQp/xerjoff-gold.jpg" alt="Garden Luxury Golden Bloom">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Garden Luxury Golden Bloom</h3>
+<div class="price">$24.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Garden Luxury Golden Bloom">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/jSqGKrFZ/xerjoff-gold.jpg" alt="Garden Luxury Tropical Allure">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Garden Luxury Tropical Allure</h3>
+<div class="price">$24.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Garden Luxury Tropical Allure">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/1Rdt8s6P/xerjoff-gold.jpg" alt="Goddess Energy Femme Bloom">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Garden Luxury Tropical Allure</h3>
+<div class="price">$22.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Goddess Energy Femme Bloom">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/1Rdt8s6P/xerjoff-gold.jpg" alt="Sunset Bouquet">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Sunset Bouquet</h3>
+<div class="price">$22.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Sunset Bouquet">Comprar</a>
+</div>
+
+
+</div>
+</div>
+
+<!-- ================= OTROS ============= -->
+
+<div class="section">
+<h2>Otros</h2>
+<div class="grid">
+
+
+<div class="card">
+<img src="https://i.postimg.cc/nrGJ4zyL/golden-boos.jpg" alt="Boos Collector's Edition">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Bozzs Collector's Edition</h3>
+<div class="price">$60.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Bozzs Collector's Edition">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/zvFrCBsq/Cool-Girl-Velvet-Fatale.jpg" alt="Cool Girl Velvet Fatale">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Cool Girl Velvet Fatale</h3>
+<div class="price">$68.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Cool Girl Velvet Fatale">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/KcPxSqRd/oud-al-layl.jpg" alt="Oud Al Layl">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Oud Al Layl</h3>
+<div class="price">$73.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Oud Al Layl">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/3rXY5Sk8/sakeena.jpg" alt="Mystical Sakeena">
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Mystical Sakeena</h3>
+<div class="price">$73.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Mystical Sakeena">Comprar</a>
+</div>
+
+<div class="card">
+<img src="https://i.postimg.cc/WzwvG3Bm/khair.jpg" alt="Paris Corner Khair"
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>Paris Corner Khair</h3>
+<div class="price">$63.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el Paris Corner Khair">Comprar</a>
+</div>
+
+
+<div class="card">
+<img src="https://i.postimg.cc/0j3JR959/ONE-MIMILION.jpg" alt="One Mimilion"
+<span class="badge g5">G5 - Alta Calidad</span>
+<h3>One Mimilion</h3>
+<div class="price">$80.000</div>
+<a class="btn" href="https://wa.me/5491159773700?text=Hola buenas, quiero el One Mimilion">Comprar</a>
+</div>
+
+
+</div>
+</div>
+
+
+</div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+window.onload = function() {
+
+  const canvas = document.getElementById("luxury-bg");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+
+  for (let i = 0; i < 110; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 0.5,
+      speed: Math.random() * 0.4 + 0.1,
+      opacity: Math.random(),
+      twinkle: Math.random() * 0.02
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 🌫 ATMÓSFERA SUAVE
+    let gradient = ctx.createRadialGradient(
+      canvas.width / 2,
+      canvas.height / 2,
+      100,
+      canvas.width / 2,
+      canvas.height / 2,
+      canvas.width
+    );
+    gradient.addColorStop(0, "rgba(212,175,55,0.08)");
+    gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 🔗 CONEXIONES SUAVES
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        let dx = particles[i].x - particles[j].x;
+        let dy = particles[i].y - particles[j].y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 120) {
+          ctx.strokeStyle = "rgba(212,175,55,0.05)";
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // ✨ PARTÍCULAS
+    particles.forEach(p => {
+
+      p.opacity += p.twinkle;
+
+      if (p.opacity <= 0 || p.opacity >= 1) {
+        p.twinkle *= -1;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(212,175,55," + p.opacity + ")";
+      ctx.fill();
+
+      p.y -= p.speed;
+
+      if (p.y < 0) {
+        p.y = canvas.height;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  window.addEventListener("resize", function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+};
+/* Colocar dentro del <script> de la misma sección, al final antes de </body> */
+document.querySelectorAll('.accordion-title').forEach(title => {
+  title.addEventListener('click', () => {
+    const currentlyOpen = document.querySelector('.accordion-content.open');
+    if(currentlyOpen && currentlyOpen !== title.nextElementSibling){
+      currentlyOpen.classList.remove('open');
+      currentlyOpen.style.maxHeight = null;
+    }
+    const content = title.nextElementSibling;
+    content.classList.toggle('open');
+    if(content.classList.contains('open')){
+      content.style.maxHeight = content.scrollHeight + "px";
+    } else {
+      content.style.maxHeight = null;
+    }
+  });
+});
+/* Colocar dentro del <script> de cada página que tenga la flechita, antes de </body> */
+document.querySelectorAll('.back-button').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.body.style.transition = "opacity 0.5s ease-in-out";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = btn.getAttribute('href');
+    }, 500);
+  });
+});
+</script>
+
+</body>
+</html>

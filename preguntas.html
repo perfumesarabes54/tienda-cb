@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.B Import - Preguntas Frecuentes</title>
+
+<style>
+/* Colocar dentro del <style> de la sección correspondiente (Ayuda, Preguntas Frecuentes, Productos si tiene acordeones) */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+  opacity: 0;
+}
+.accordion-content.open {
+  opacity: 1;
+}
+.accordion-title {
+  cursor: pointer;
+}
+#luxury-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+}
+body {
+  margin: 0;
+  background: black;
+  color: gold;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;500&family=Anton&display=swap" rel="stylesheet">
+
+<style>
+
+* { box-sizing: border-box; margin:0; padding:0; }
+
+/* ===== FONDO Y LETRAS ===== */
+body {
+  background-color: #000; /* Fondo negro */
+  color: #d4af37; /* Letras doradas */
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ===== FLECHA VOLVER (CUADRADO) ===== */
+.back-arrow {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 45px;
+  height: 45px;
+  background: #111;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#d4af37;
+  font-size:26px;
+  text-decoration:none;
+  z-index:3000;
+  transition: transform 0.3s, background 0.3s;
+}
+.back-arrow:hover {
+  transform: translateX(-5px);
+  background:#222;
+}
+
+/* ===== HEADER ===== */
+header {
+  text-align:center;
+  padding:15px 0;
+}
+header .logo {
+  font-family:'Anton', sans-serif;
+  font-size:26px;
+  letter-spacing:4px;
+  background: linear-gradient(90deg,#9fa3a6,#ffffff,#9fa3a6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:mover 12s linear infinite;
+}
+@keyframes mover {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* ===== MAIN ===== */
+main {
+  padding-top:80px;
+  width:90%;
+  max-width:700px;
+  margin:0 auto;
+}
+
+/* ===== TÍTULO ===== */
+h1 {
+  font-family:'Anton', sans-serif;
+  font-size:42px;
+  text-align:center;
+  margin-bottom:30px;
+  font-weight:bold;
+  background: linear-gradient(90deg,#d4af37,#fff,#d4af37);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ===== ACORDIÓN PREGUNTAS ===== */
+.accordion-item {
+  border: 2px solid #bfa76f;
+  border-radius:10px;
+  margin-bottom:15px;
+  overflow:hidden;
+  transition: all 0.3s ease;
+}
+.accordion-item button {
+  width:100%;
+  padding:15px;
+  background:#111;
+  color:#d4af37;
+  font-size:18px;
+  font-weight:bold;
+  border:none;
+  text-align:left;
+  cursor:pointer;
+  outline:none;
+  transition: background 0.3s;
+}
+.accordion-item button:hover { background:#222; }
+.accordion-item .content {
+  max-height:0;
+  overflow:hidden;
+  background:#111;
+  padding:0 15px;
+  transition:max-height 0.4s ease;
+  color:#d4af37;
+}
+
+/* ===== FORMULARIO PREGUNTA ===== */
+#formPregunta {
+  margin-top:40px;
+  text-align:center;
+}
+#formPregunta input[type=text] {
+  width:80%;
+  max-width:400px;
+  padding:10px;
+  border-radius:8px;
+  border:2px solid #bfa76f;
+  background:#111;
+  color:#d4af37;
+  font-size:16px;
+  margin-bottom:10px;
+}
+#formPregunta button {
+  padding:10px 25px;
+  border:none;
+  border-radius:6px;
+  background:#d4af37;
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  transition: background 0.3s;
+}
+#formPregunta button:hover { background:#fff; }
+
+/* ===== MENSAJE ENVIADO ===== */
+#mensajeEnviado {
+  margin-top:15px;
+  color:#d4af37;
+  display:none;
+  font-weight:bold;
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="luxury-bg"></canvas>
+
+<body style="margin: 0; font-family: Arial, sans-serif; background: linear-gradient(135deg, #000000, #1a1a1a); color: white;">
+<!-- FLECHA VOLVER -->
+<a href="index.html" class="back-arrow">←</a>
+
+<a href="index.html" style="position: fixed; 
+top: 20px; left: 20px; font-size: 28px; 
+text-decoration: none; color: gold;">
+  ←
+</a>
+
+<header>
+  <div class="logo">LOS MEJORES PRECIOS ACÁ</div>
+</header>
+
+<main>
+  <h1>PREGUNTAS FRECUENTES</h1>
+
+  <!-- ACORDIÓN PREGUNTAS -->
+  <div class="accordion-item">
+    <button>¿Cómo realizo un pedido?</button>
+    <div class="content"><p>Puedes elegir el producto y presionar "Comprar" para enviarnos tu pedido vía WhatsApp.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button>¿Los precios incluyen envío?</button>
+    <div class="content"><p>No, los precios son solo de los productos. El envío se coordina por separado.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button>¿Cómo puedo recibir atención personalizada?</button>
+    <div class="content"><p>Estamos disponibles vía WhatsApp para responder todas tus dudas rápidamente.</p></div>
+  </div>
+
+  <div class="accordion-item">
+    <button>¿Cuánto dura el perfume?</button>
+    <div class="content"><p>La duración del perfume es entre 6 y 10 horas, dependiendo del perfume.</p></div>
+  </div>
+
+  <!-- FORMULARIO PARA PREGUNTA NUEVA -->
+  <div id="formPregunta">
+    <input type="text" id="nuevaPregunta" placeholder="Escribe tu pregunta aquí...">
+    <br>
+    <button onclick="enviarPregunta()">Enviar</button>
+    <div id="mensajeEnviado">¡Tu pregunta fue enviada!</div>
+  </div>
+</main>
+
+<script>
+/* ACORDIÓN */
+const accordionButtons = document.querySelectorAll('.accordion-item button');
+accordionButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const content = btn.nextElementSibling;
+    const maxHeight = content.style.maxHeight;
+    document.querySelectorAll('.accordion-item .content').forEach(c => c.style.maxHeight = null);
+    if(!maxHeight || maxHeight === '0px'){
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+});
+
+/* ENVIAR PREGUNTA SIMULADA */
+function enviarPregunta(){
+  const input = document.getElementById('nuevaPregunta');
+  if(input.value.trim() !== ""){
+    document.getElementById('mensajeEnviado').style.display='block';
+    input.value = "";
+    setTimeout(()=>{ document.getElementById('mensajeEnviado').style.display='none'; }, 2500);
+  } else {
+    alert("Escribe algo antes de enviar.");
+  }
+}
+</script>
+
+<script>
+const canvas = document.getElementById("luxury-bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const particleCount = 80;
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+  }
+
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+
+  draw() {
+    ctx.fillStyle = "rgba(212,175,55,0.8)";
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function init() {
+  particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function connect() {
+  for (let a = 0; a < particles.length; a++) {
+    for (let b = a; b < particles.length; b++) {
+      let dx = particles[a].x - particles[b].x;
+      let dy = particles[a].y - particles[b].y;
+      let distance = dx * dx + dy * dy;
+
+      if (distance < 9000) {
+        ctx.strokeStyle = "rgba(212,175,55,0.08)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.update();
+    p.draw();
+  });
+  connect();
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+});
+
+init();
+animate();
+/* Colocar dentro del <script> de la misma sección, al final antes de </body> */
+document.querySelectorAll('.accordion-title').forEach(title => {
+  title.addEventListener('click', () => {
+    const currentlyOpen = document.querySelector('.accordion-content.open');
+    if(currentlyOpen && currentlyOpen !== title.nextElementSibling){
+      currentlyOpen.classList.remove('open');
+      currentlyOpen.style.maxHeight = null;
+    }
+    const content = title.nextElementSibling;
+    content.classList.toggle('open');
+    if(content.classList.contains('open')){
+      content.style.maxHeight = content.scrollHeight + "px";
+    } else {
+      content.style.maxHeight = null;
+    }
+  });
+});
+/* Colocar dentro del <script> de cada página que tenga la flechita, antes de </body> */
+document.querySelectorAll('.back-button').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    document.body.style.transition = "opacity 0.5s ease-in-out";
+    document.body.style.opacity = 0;
+    setTimeout(() => {
+      window.location.href = btn.getAttribute('href');
+    }, 500);
+  });
+});
+</script>
+
+</body>
+</html>
